@@ -2,7 +2,8 @@
 import axios from 'axios';
 
 const API = axios.create({
-  baseURL: 'https://quizapp-backend-7kok.onrender.com', // Adjust this to your backend server URL
+  // Use the environment variable here
+  baseURL: process.env.REACT_APP_API_BASE_URL, 
 });
 
 API.interceptors.request.use((req) => {
