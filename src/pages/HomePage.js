@@ -7,17 +7,23 @@ import QuizCard from '../components/QuizCard';
 const HomePage = () => {
   const [categories, setCategories] = useState([]);
   const [quizzesTaken, setQuizzesTaken] = useState([]);
+  // CHANGE 1: Add a new state variable to store all quizzes
+  const [allQuizzes, setAllQuizzes] = useState([]);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     const fetchHomeData = async () => {
       try {
-        const [categoriesRes, quizzesRes] = await Promise.all([
+        // CHANGE 2: Fetch all quizzes in addition to categories and quizzesTaken
+        const [categoriesRes, quizzesTakenRes, allQuizzesRes] = await Promise.all([
           API.get('/quizzes/categories'),
-          API.get('/user/quizzes')
+          API.get('/user/quizzes'),
+          API.get('/quizzes')
         ]);
         setCategories(categoriesRes.data);
-        setQuizzesTaken(quizzesRes.data);
+        setQuizzesTaken(quizzesTakenRes.data);
+        // CHANGE 3: Set the allQuizzes state
+        setAllQuizzes(allQuizzesRes.data); 
       } catch (err) {
         console.error("Failed to fetch homepage data", err);
       } finally {
@@ -49,16 +55,14 @@ const HomePage = () => {
       <section>
         <h2 className="text-2xl font-semibold mb-4">All Quizzes</h2>
         <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
-          {/* You need to fetch all quizzes here from /api/quizzes to display. 
-             This is a simplified example. */}
-          {/* Example:
+          {/* CHANGE 4: The example code is now uncommented and uses the 'allQuizzes' state */}
           {allQuizzes.map(quiz => (
             <QuizCard 
               key={quiz._id} 
               quiz={quiz} 
               status={getQuizStatus(quiz._id)} 
             />
-          ))} */}
+          ))}
         </div>
       </section>
     </div>
