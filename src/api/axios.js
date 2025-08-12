@@ -2,7 +2,7 @@
 import axios from 'axios';
 
 const API = axios.create({
-  baseURL: 'http://localhost:5000/api', // Adjust this to your backend server URL
+  baseURL: 'https://quizapp-backend-7kok.onrender.com', // Adjust this to your backend server URL
 });
 
 API.interceptors.request.use((req) => {
